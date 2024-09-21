@@ -16,7 +16,7 @@ soma2l (a:xs) (b:ys) = a + b : soma2l xs ys      -- ":" = insere
 membro _ [] = False                             -- "_" = qualquer dígito (não ocupa espaço na memória)
                                                 -- se a lista estiver vazia, não importa qual é o elemento
 membro elt (a:xs) | elt == a = True             -- "|" = if
-| otherwise = membro elt xs                     -- "| otherwise" = else
+                  | otherwise = membro elt xs   -- "| otherwise" = else
 
 
 -------------------- pertence --------------------
@@ -29,7 +29,7 @@ acha elt lst = pertence elt lst 0
 
 pertence _ [] n = -1
 pertence elt (a:xs) n | elt == a = n
-| otherwise = pertence elt xs (n + 1)
+                      | otherwise = pertence elt xs (n + 1)
 
 
 ------------------ interseccao -------------------
@@ -38,7 +38,7 @@ pertence elt (a:xs) n | elt == a = n
 
 interseccao [] _ = []
 interseccao (a:xs) lst | membro a lst = a : interseccao xs lst
-| otherwise = interseccao xs lst
+                       | otherwise = interseccao xs lst
 
 
 --------------------- ultimo ---------------------
@@ -61,7 +61,7 @@ penultimo (a:xs) = penultimo xs
 -- >segundo [1,2,3]
 -- >2
 
-segundo (a(b:xs)) = b
+segundo (a:(b:xs)) = b
 
 
 -------------------- duplica ---------------------
