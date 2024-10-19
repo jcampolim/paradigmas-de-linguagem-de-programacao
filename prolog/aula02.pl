@@ -45,12 +45,12 @@ soma2l([],L,L).
 soma2l(L,[],L).
 soma2l([A|As],[B|Bs],[R|Rs]) :- R is A + B, soma2l(As,Bs,Rs).
 
-% -- com acumuladores (otimização de memória) --
+/* -- com acumuladores (otimização de memória) -- */
 soma2lA([],L,L).
 soma2lA(L,[],L).
 soma2lA(L1,L2,R) :- soma2lA(L1,L2,[],R).
 
-soma2lA([],L,Lac,R) :- append(Lac,L,R).     % o append concatena duas listas
+soma2lA([],L,Lac,R) :- append(Lac,L,R).     /* o append concatena duas listas */
 soma2lA(L,[],Lac,R) :- append(Lac,L,R).
 soma2lA([A|As],[B|Bs],Lac,R) :- S is A + B, 
                                 append(Lac,[S],Lac2), 
@@ -59,6 +59,67 @@ soma2lA([A|As],[B|Bs],Lac,R) :- S is A + B,
 
 /*-------------------- membro --------------------*/
 
-membro(N,[N|_]).                           % filtra os elementos iguais
-membro(N,[_|As]) :- membro(N,As).          % o prolog avalia os predicados de cima para baixo
+membro(N,[N|_]).                           /* filtra os elementos iguais */
+membro(N,[_|As]) :- membro(N,As).          /* o prolog avalia os predicados de cima para baixo */
 
+
+/*-------------------- intersecção --------------------*/
+
+intersec([],_,[]).
+intersec([A|As],L,[A|X]) :- membro(A,L), intersec(As,L,X).
+intersec([_|As],L,R) :- intersec(As,L,R).
+
+/* -- com acumuladores (otimização de memória) -- */
+
+intersecA(L1,L2,R) :- intersecA(L1,L2,[],R).
+
+intersecA([],_,L,L).
+intersecA([A|As],L,LA,R) :- membro(A,L), append(LA,[A],LA2), intersec(As,L,LA2,R).
+intersecA([_|As],L,LA,R) :- intersec(As,L,LA2,R).
+
+
+/*-------------------- ultimo --------------------*/
+
+ult([A],A).
+ult([_|As],R) :- ult(As,R).
+
+
+/*-------------------- penultimo --------------------*/
+
+penult([A,B],A).
+penult([_|As],R) :- penult(As,R).
+
+
+/*-------------------- segundo --------------------*/
+
+seg([_,A|_],A).
+
+
+/*-------------------- mesmoTam --------------------*/
+
+msmTam(L1,L2) :- tam(L1,T), tam(L2,T).          /* deselegante */
+
+mesmoTam([],[]).
+mesmoTam([_|As],[_|Bs]) :- mesmoTam(As,Bs).
+
+
+/*-------------------- duplica --------------------*/
+
+duplica([],[]).
+duplica([A|As],[A,A|X]) :- duplica(As,X).
+
+
+/*-------------------- del pri --------------------*/
+
+/* deleta a primeira ocorrecia*/
+
+delpri(_,[],[]).
+delpri(N,[N|X],X).
+delpri(N,[M|X],[M|Y]) :- delpri(N,X,Y).
+
+
+/*-------------------- del all --------------------*/
+
+delall(_,[],[]).
+delall(N,[N|X],X) :- delall(N,X,X).
+delall(N,[M|X],[M|Y]) :- delall(N,X,Y).
