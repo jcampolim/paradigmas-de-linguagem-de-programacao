@@ -121,5 +121,15 @@ delpri(N,[M|X],[M|Y]) :- delpri(N,X,Y).
 /*-------------------- del all --------------------*/
 
 delall(_,[],[]).
-delall(N,[N|X],X) :- delall(N,X,X).
+delall(N,[N|X],Y) :- delall(N,X,Y).
 delall(N,[M|X],[M|Y]) :- delall(N,X,Y).
+
+
+/*-------------------- del duplicado --------------------*/
+
+deldup([],[]).
+deldup([A|As],[A|Rs]) :- deldup(A,As,Rs).
+
+deldup(_,[],[]).
+deldup(A,[A|As],R) :- deldup(A,As,R).
+deldup(_,[B|As],[B|R]) :- deldup(B,As,R).
