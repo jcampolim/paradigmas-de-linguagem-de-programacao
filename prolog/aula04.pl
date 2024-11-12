@@ -33,14 +33,25 @@ hanoi(N,E,C,D) :- N1 is N - 1, hanoi(N1,E,D,C), hanoi(1,E,C,D), hanoi(N1,D,C,E).
 
 /*-------------------- multi --------------------*/
 
-multi(L,R) :- soma_elementos(L,I,P), I > P, incrementa(L,R).
-multi(L,L).
+multi(L,R) :- um(L,R1), dois(R1,R2), tres(R2,R3), quatro(R3,S,Q), R is S / Q.
 
-soma_elementos(L,I,P) :- soma_elementos(L,I,P,0).
+um(L,R) :- soma_elementos(L,I,P), I > P, incrementa(L,R).
+um(L,L).
 
-soma_elementos([],0,0,_).
-soma_elementos([A|As],I,P1,C) :- C = 0, soma_elementos(As,I,P,1), P1 is P + A.
-soma_elementos([A|As],I1,P,_) :- soma_elementos(As,I,P,0), I1 is I + A.
+dois([],[]).
+dois([5|As],R) :- dois(As,R).
+dois([A|As],[A|R]) :- dois(As,R).
+
+tres([],[]).
+tres([A,A|As],[A,66|R]) :- tres([A|As],R).
+tres([A|As],[A|R]) :- tres(As,R).
+
+quatro([],0,0).
+quatro([A|As],S1,Q1) :- quatro(As,S,Q), S1 is S + A, Q1 is Q + 1.
+
+soma_elementos([],0,0).
+soma_elementos([A],I1,P) :- soma_elementos([],I,P), I1 is I + A.
+soma_elementos([A,B|As],I1,P1) :- soma_elementos(As,I,P), I1 is I + A, P1 is P + B.
 
 incrementa([A,B,C,D|X],[A,B,C,D|R]) :- incr(X,R).
 
